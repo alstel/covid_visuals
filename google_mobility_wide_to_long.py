@@ -3,10 +3,18 @@ import os
 
 # read in data
 dir = '.'
-filename = 'Global_Mobility_Report.csv'
+filename = 'Global_Mobility_Report.zip'
 mobility_wide = pd.read_csv(
-    os.path.join(dir, filename)
+    os.path.join(dir, filename),
+	compression='zip'
 )
+
+# given file size, start with subsets, like by country
+country_region_code = ''
+mobility_wide = mobility_wide.loc[
+    mobility_wide.country_region_code == country_region_code
+]
+
 
 # simplify column names
 mobility_wide = mobility_wide.rename(columns={
@@ -20,7 +28,7 @@ mobility_wide = mobility_wide.rename(columns={
 
 # shift to long format
 mobility_long = mobility_wide.melt(id_vars=[
-    'country_region',
+    'country_region_code',
     'sub_region_1',
     'sub_region_2',
     'metro_area',
@@ -41,6 +49,7 @@ mobility_long = mobility_wide.melt(id_vars=[
 
 # write to file
 mobility_long.to_csv(
-	'global_mobility_long.csv',
+	f'{country_region_code}_global_mobility_long.zip',
+	compression='zip',
 	index=False
 )
