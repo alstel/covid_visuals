@@ -13,10 +13,11 @@ mobility_wide = pd.read_csv(
 country_region_code = ['US']
     
 for code in country_region_code:    
+    
+    # create subset
     mobility_wide = mobility_wide.loc[
         mobility_wide.country_region_code == code
     ]
-
 
     # simplify column names
     mobility_wide = mobility_wide.rename(columns={
@@ -29,21 +30,22 @@ for code in country_region_code:
     })
 
     # shift to long format
-    mobility_long = mobility_wide.melt(id_vars=[
-        'country_region_code',
-        'sub_region_1',
-        'sub_region_2',
-        'metro_area',
-        'census_fips_code',
-        'date'
+    mobility_long = mobility_wide.melt(
+        id_vars=[
+            'country_region_code',
+            'sub_region_1',
+            'sub_region_2',
+            'metro_area',
+            'census_fips_code',
+            'date'
         ], 
         value_vars=[
-        'retail_recreation',
-        'grocery_pharmacy',
-        'parks',
-        'transit_stations',
-        'workplaces',
-        'residential'
+            'retail_recreation',
+            'grocery_pharmacy',
+            'parks',
+            'transit_stations',
+            'workplaces',
+            'residential'
         ],
         var_name='activity',
         value_name='percent_change'
