@@ -1,26 +1,32 @@
 import pandas as pd
 import os
 
+"""
+Good for use in building facet charts.
+File size will increase over wide format.
+"""
+
 # read in data
-dir = '.'
+dir = '~/repos/covid_visuals/mobility/google/'
 filename = 'Global_Mobility_Report.zip'
-mobility_wide = pd.read_csv(
+mobility = pd.read_csv(
     os.path.join(dir, filename),
-	compression='zip'
+	compression='zip',
+    low_memory=False
 )
 
-# given file size, start with subsets, like filtering by country
+# start with subsets
 country_region_code = ['US']
     
 for code in country_region_code:    
     
     # create subset
-    mobility_wide = mobility_wide.loc[
-        mobility_wide.country_region_code == code
+    mobility = mobility.loc[
+        mobility.country_region_code == code
     ]
 
     # simplify column names
-    mobility_wide = mobility_wide.rename(columns={
+    mobility = mobility.rename(columns={
         'retail_and_recreation_percent_change_from_baseline': 'retail_recreation',
         'grocery_and_pharmacy_percent_change_from_baseline': 'grocery_pharmacy',
         'parks_percent_change_from_baseline': 'parks',
@@ -30,7 +36,7 @@ for code in country_region_code:
     })
 
     # shift to long format
-    mobility_long = mobility_wide.melt(
+    mobility_long = mobility.melt(
         id_vars=[
             'country_region_code',
             'sub_region_1',
@@ -53,7 +59,7 @@ for code in country_region_code:
 
     # write to file
     mobility_long.to_csv(
-        f'{code}_global_mobility_long.zip',
+        f'~/repos/covid_visuals/mobility/google/{code}_mobility_long.zip',
         compression='zip',
         index=False
     )
