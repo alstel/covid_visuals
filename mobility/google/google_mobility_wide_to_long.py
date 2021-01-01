@@ -7,7 +7,7 @@ File size will increase over wide format.
 """
 
 # read in data
-dir = '~/repos/covid_visuals/mobility/google/'
+dir = '.'
 filename = 'Global_Mobility_Report.zip'
 mobility = pd.read_csv(
     os.path.join(dir, filename),
@@ -59,7 +59,7 @@ for code in country_region_code:
 
     # write to file
     mobility_long.to_csv(
-        f'~/repos/covid_visuals/mobility/google/{code}_mobility_long.zip',
+        f'{code}_mobility_long.zip',
         compression='zip',
         index=False
     )
