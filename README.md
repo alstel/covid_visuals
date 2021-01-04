@@ -1,2 +1,2 @@
 # covid_visuals
-Highlighting some different methods for visualizing publicly available covid data.
+Tinkering with different visualization methods, primarily in Altair.
